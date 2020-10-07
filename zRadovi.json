@@ -1,0 +1,50 @@
+{
+  "zavrsniRadovi": {
+    "1": {
+      "sifra": 10001,
+      "nazivRada": "HDD vs SSD",
+      "podrucjeRada": "Racunalstvo",
+      "mentorId": 1,
+      "sumentorId": 2,
+      "student": "Mirko K",
+      "akGodina": 2019,
+      "ocjena": 3
+    },
+    "2": {
+      "sifra": 10002,
+      "nazivRada": "Led Kocka",
+      "podrucjeRada": "Elektrotehnika",
+      "mentorId": 2,
+      "sumentorId": 3,
+      "student": "Jovan P",
+      "akGodina": 1972,
+      "ocjena": 4
+    }
+
+  },
+  "administratori": {
+    "1": {
+      "ime": "Filip",
+      "prezime": "Keci",
+      "username": "jjj.fff",
+      "password": "00000000"
+    }
+  },
+  "mentori": {
+    "1": {
+      "mentorId": 1,
+      "mentorIme": "Josip",
+      "mentorPrezime": "Markovic"
+    },
+    "2": {
+      "mentorId": 2,
+      "mentorIme": "Ivan",
+      "mentorPrezime": "Krapinovic"
+    },
+    "3": {
+      "mentorId": 3,
+      "mentorIme": "Kresimir",
+      "mentorPrezime": "Markanovic"
+    }
+  }
+}

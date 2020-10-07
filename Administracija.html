@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Administracija</title>
+    <script src="assets/plugins/jquery/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="assets/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link href="assets/plugins/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="assets/plugins/jquery/jquery-3.2.1.min.js"></script>
+    <script src="assets/plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="img/rad.png">
+</head>
+<body>
+    <div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <p class="navbar-brand"><img id="vsmti" border="0" src="img/logo_rac.png"></p>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="zRadovi.html">Sustav za evidenciju završnih radova</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <button class="btn btn-primary-outline" onclick="logout()" id="odjava"><span class="glyphicon glyphicon-log-out"></span>  Odjava</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="jumbotron text-center">
+        <div class="container-fluid">
+            <h1>Administracija sustava za evidenciju završnih radova</h1>
+            <p>Jakov Filip Saboliček</p>
+        </div>
+    </div>
+
+    <div class="container tcollaps">
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseMentori"><span class="glyphicon glyphicon-user"></span>  Prikaz Mentora</button>
+        <div id="collapseMentori" class="collapse">
+            <div class="row">
+                <div class="col-lg-12">
+                    <table id="TablicaMentori" class="table table-stripped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Mentor</th>
+                                <th>Ažuriraj</th>
+                                <th>Obriši</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tMentori">
+                        </tbody>
+                    </table>
+                    <span>
+                        <button class="btn btn-success" data-toggle="modal" data-target="#dodaj-mentora"><span class="glyphicon glyphicon-plus"></span> Dodaj Mentora</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container tcollaps">
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapsePodrucja"><span class="glyphicon glyphicon-th-list"></span>  Prikaz Podrucja</button>
+        <div id="collapsePodrucja" class="collapse">
+            <div class="row">
+                <div class="col-lg-12">
+                    <table id="TablicaPodrucja" class="table table-stripped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Podrucje</th>
+                                <th>Ažuriraj</th>
+                                <th>Obriši</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tPodrucja">
+                        </tbody>
+                    </table>
+                    <span>
+                        <button class="btn btn-success" data-toggle="modal" data-target="#dodaj-podrucje"><span class="glyphicon glyphicon-plus"></span> Dodaj Podrucje Rada</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container aktivnost">
+        <h1>Povijest aktivnosti</h1>
+        <table id="povijestAktivnosti" class="table table-stripped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Radnja</th>
+                    <th>Datum/Vrijeme</th>
+                    <th>Naziv</th>
+                </tr>
+            </thead>
+            <tbody id="podaciGlavneTablice">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="dodaj-mentora" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"></button>
+                    <h4 class="modal-title">Dodaj Mentora</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inptNoviMentor">Upišite ime i prezime mentora</label>
+                        <input text" class="form-control" id="inptNoviMentor">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="DodajMentora()" type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Odustani</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="dodaj-podrucje" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"></button>
+                    <h4 class="modal-title">Dodaj Podrucje Rada</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inptNovoPodrucje">Upišite naziv novog podrucja rada</label>
+                        <input type="text" class="form-control" id="inptNovoPodrucje">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="DodajPodrucje()" type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Odustani</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="azuriraj-mentora" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"></button>
+                    <h4 class="modal-title">Azuriraj Mentora</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inptMentorEdit">Mentor - Upišite ime i prezime</label>
+                        <input type="text" class="form-control" id="inptMentorEdit">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="adminAzurirajMentora" type="button" class="btn btn-success" data-dismiss="modal">Ažuriraj</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Odustani</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="azuriraj-podrucje" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"></button>
+                    <h4 class="modal-title">Azuriraj Podrucje</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inptPodrucjeEdit">Podrucje</label>
+                        <input type="text" class="form-control" id="inptPodrucjeEdit">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="adminAzurirajPodrucje" type="button" class="btn btn-success" data-dismiss="modal">Ažuriraj</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Odustani</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="topFunction()" id="myBtn" title="Go to top"><img src="img/arrowUP.png" /></button>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/FinalsAdministrationRepository.js"></script>
+    <script src="js/Login.js"></script>
+
+</body>
+</html>
